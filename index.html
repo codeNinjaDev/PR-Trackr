@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PR Tracker</title>
+         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+
+
+
+        <style>
+
+            /*#radio-buttons {
+                width: 50%;
+                margin: 0 auto;
+
+            }*/
+
+            #main-container {
+                padding: 2rem;
+
+            }
+            .padding-element {
+            	margin: 1.1rem;
+            }
+
+            h3 {
+             	font-size: 2rem;
+            }
+
+            #toggleLabelKmToMile {
+            	display: none;
+            }
+            #toggleLabelMileToKm {
+            	display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+    <div class="container" id="main-container">
+        <label class="padding-element mdl-radio mdl-js-radio mdl-js-ripple-effect" for="miles">
+  <input type="radio" id="miles" class="mdl-radio__button" name="options" value="Miles" checked>
+  <span class="mdl-radio__label">Miles</span>
+</label>
+<label class="padding-element mdl-radio mdl-js-radio mdl-js-ripple-effect" for="km">
+  <input type="radio" id="km" class="mdl-radio__button" required name="options" value="Km">
+  <span class="mdl-radio__label">Kilometers</span>
+</label> <br />
+<!--<label class="padding-element mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+  <input type="checkbox" class="mdl-checkbox__input" id="cfonvertMilePace">
+  <span class="mdl-checkbox__label">Convert to mile pace</span>
+</label>-->
+<label id="toggleLabelMileToKm" class="padding-element mdl-switch mdl-js-switch mdl-js-ripple-effect" for="convertMilePace">
+  <input type="checkbox" id="convertMilePace" class="mdl-switch__input">
+  <span class="mdl-switch__label">Convert to km pace</span>
+</label>
+
+<label id="toggleLabelKmToMile" class="padding-element mdl-switch mdl-js-switch mdl-js-ripple-effect" for="convertKmPace">
+  <input type="checkbox" id="convertKmPace" class="mdl-switch__input">
+  <span class="mdl-switch__label">Convert to mile pace</span>
+</label>
+
+
+   <!-- Numeric Textfield with Floating Label -->
+<form action="#">
+  <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="number" min="0" step="any" pattern="-?[0-9]*(\.[0-9]+)?" id="distanceInput" class="required">
+    <label class="mdl-textfield__label" id="distanceLabel" for="distanceInput">Miles</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+</form>
+
+    <!-- Numeric Textfield with Floating Label -->
+<form action="#">
+  <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="number" min="0" step="any" pattern="-?[0-9]*(\.[0-9]+)?" id="minuteInput">
+    <label class="mdl-textfield__label" id="minuteLabel" for="minuteInput">Minutes</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+    <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="number" min="0" step="any" max="59" pattern="-?[0-9]*(\.[0-9]+)?" id="secondInput">
+    <label class="mdl-textfield__label" id="secondLabel" for="secondInput">Seconds</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+
+</form>
+    <div>
+    <!-- Accent-colored raised button with ripple -->
+<button class="padding-element mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" id="submit-btn">
+  Submit
+</button>
+    <!-- Accent-colored raised button with ripple -->
+<button class="padding-element mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="clear-btn">
+  Clear
+</button>
+    </div>
+        <div id="answer">
+        <h3 id="minute-mile"></h3>
+
+        </div>
+
+        </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script>
+
+        
+        var nullCheck = false;
+        var submit = $("#submit-btn");
+        var clear = $("#clear-btn");
+        var globalUnit = "mile";
+
+        $(":radio[name=options]").change(function() {
+            var unit = $(this).val();
+            if(unit === "Km") {
+                globalUnit = "km";
+                $("#toggleLabelKmToMile").css("display", "block");
+                $("#toggleLabelMileToKm").css("display", "none");
+            } else if(unit === "Miles") {
+            	globalUnit = "mile";
+            	$("#toggleLabelKmToMile").css("display", "none");
+            	$("#toggleLabelMileToKm").css("display", "block");
+            }
+
+            $("#distanceLabel").text(unit);
+
+
+        });
+
+
+        submit.on("click", function() {
+
+            var distance = $("#distanceInput").val();
+            var minute = $("#minuteInput").val();
+
+            var rawSecondTime = $("#secondInput");
+            if(rawSecondTime.val() == "") {
+                rawSecondTime.val(0);
+            }
+            var secondTime = rawSecondTime.val();
+            var second = secondTime/60;
+            var time = minute + second;
+
+
+            var localUnit = globalUnit;
+            var toggle1 = $("#convertKmPace");
+            var toggle2 = $("#convertMilePace");
+            if(distance == "" || time == "") {
+                nullCheck = true;
+
+            } else {
+                nullCheck = false;
+            }
+
+
+
+
+            if(toggle1.is(":checked") && globalUnit == "km") {
+
+            	localUnit = "mile";
+            	distance = 0.621371 * distance;
+
+            	calculatePace(time, distance);
+              console.log("Toggle 1 is checked, distance is " + distance);
+
+
+            } else if (toggle2.is(":checked") && globalUnit == "mile"){
+
+            	localUnit = "km";
+            	distance = 1.60934 * distance;
+              console.log("Toggle 2 is checked, distance is " + distance);
+            	calculatePace(time, distance);
+
+
+
+
+            }
+
+            else {
+            	calculatePace(time, distance);
+              console.log("distance is " + distance);
+            }
+
+            //console.log("unit is " + localUnit + " the distance is " + distance +" the minute mile is" + minuteTime);
+            //calculatePace(time, distance);
+
+            function calculatePace(time, distance) {
+            minuteTime = time/distance;
+
+            completeMinTime =  minute/distance;
+            console.log("completeMinTime = " + completeMinTime);
+            completeSecTime = secondTime/distance;
+            console.log("completeSecTime = " + completeSecTime);
+            if(minuteTime % 1 == 0 && secondTime == 0) {
+
+                if(nullCheck == false) {
+                    $("#minute-mile").text("You accomplished " + minuteTime + " minute " + localUnit + " pace!");
+                } else {
+                    $("#minute-mile").text("Invalid inputs!");
+                }
+            } else {
+                if(nullCheck == false) {
+
+                    if(completeMinTime % 1 != 0) {
+                        var flooredMinuteTime = Math.floor(completeMinTime);
+                        var subtractedTime = completeMinTime - flooredMinuteTime;
+                        subtractedTime = subtractedTime*60;
+
+                        console.log("secondTime before = " + completeSecTime);
+
+                        completeSecTime = completeSecTime + subtractedTime;
+
+                        while(completeSecTime > 59) {
+
+                            completeSecTime = completeSecTime - 60;
+                            console.log("secondTime after = " + completeSecTime);
+                            flooredMinuteTime = flooredMinuteTime + 1;
+                            console.log("minuteTime after = " + flooredMinuteTime);
+                        }
+                        var roundedSecTime = completeSecTime.toFixed(1);
+                        var statement = "You accomplished " + flooredMinuteTime + " minute " + roundedSecTime + " second " + localUnit + " pace!";
+                        $("#minute-mile").text(statement);
+                        console.log(statement);
+
+                    } else {
+                         var statement = "You accomplished " + completeMinTime + " minute " + completeSecTime + " second " + localUnit + " pace!";secondTime
+                        $("#minute-mile").text(statement);
+                        console.log(statement);                    }
+                } else {
+                    $("#minute-mile").text("Invalid inputs!");
+                }
+            }
+
+        }
+
+        });
+        clear.on("click", function() {
+            $("#distanceInput").val("");
+            $("#minuteInput").val("");
+            $("#secondInput").val("")
+
+            $("#minute-mile").text("");
+
+
+
+        });
+
+
+
+
+
+    </script>
+    </body>
+
+
+
+
+</html>
