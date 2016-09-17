@@ -1,122 +1,190 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>PR Tracker</title>
-         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <meta charset="utf-8">
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
-        <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<head>
+    <title>PR Tracker</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta charset="utf-8">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-        <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 
 
-
-
-        <style>
-
-            /*#radio-buttons {
+    <style>
+        /*#radio-buttons {
                 width: 50%;
                 margin: 0 auto;
 
             }*/
 
-            #main-container {
-                padding: 2rem;
+        #main-container {
+            padding: 2rem;
+        }
+        .padding-element {
+            margin: 1.1rem;
+        }
+        h3 {
+            font-size: 2rem;
+        }
+        #toggleLabelKmToMile {
+            display: none;
+        }
+        #toggleLabelMileToKm {
+            display: block;
+        }
+        nav {
+          font-size: 1.5 rem;
+        }
 
-            }
-            .padding-element {
-            	margin: 1.1rem;
-            }
+        #storage {
 
-            h3 {
-             	font-size: 2rem;
-            }
+          display: none;
+        }
 
-            #toggleLabelKmToMile {
-            	display: none;
-            }
-            #toggleLabelMileToKm {
-            	display: block;
-            }
-        </style>
-    </head>
-
-    <body>
-    <div class="container" id="main-container">
-        <label class="padding-element mdl-radio mdl-js-radio mdl-js-ripple-effect" for="miles">
-  <input type="radio" id="miles" class="mdl-radio__button" name="options" value="Miles" checked>
-  <span class="mdl-radio__label">Miles</span>
-</label>
-<label class="padding-element mdl-radio mdl-js-radio mdl-js-ripple-effect" for="km">
-  <input type="radio" id="km" class="mdl-radio__button" required name="options" value="Km">
-  <span class="mdl-radio__label">Kilometers</span>
-</label> <br />
-<!--<label class="padding-element mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-  <input type="checkbox" class="mdl-checkbox__input" id="cfonvertMilePace">
-  <span class="mdl-checkbox__label">Convert to mile pace</span>
-</label>-->
-<label id="toggleLabelMileToKm" class="padding-element mdl-switch mdl-js-switch mdl-js-ripple-effect" for="convertMilePace">
-  <input type="checkbox" id="convertMilePace" class="mdl-switch__input">
-  <span class="mdl-switch__label">Convert to km pace</span>
-</label>
-
-<label id="toggleLabelKmToMile" class="padding-element mdl-switch mdl-js-switch mdl-js-ripple-effect" for="convertKmPace">
-  <input type="checkbox" id="convertKmPace" class="mdl-switch__input">
-  <span class="mdl-switch__label">Convert to mile pace</span>
-</label>
+        #submit-btn {
+          background-color: green;
+        }
 
 
-   <!-- Numeric Textfield with Floating Label -->
-<form action="#">
-  <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="number" min="0" step="any" pattern="-?[0-9]*(\.[0-9]+)?" id="distanceInput" class="required">
-    <label class="mdl-textfield__label" id="distanceLabel" for="distanceInput">Miles</label>
-    <span class="mdl-textfield__error">Input is not a number!</span>
-  </div>
-</form>
 
-    <!-- Numeric Textfield with Floating Label -->
-<form action="#">
-  <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="number" min="0" step="any" pattern="-?[0-9]*(\.[0-9]+)?" id="minuteInput">
-    <label class="mdl-textfield__label" id="minuteLabel" for="minuteInput">Minutes</label>
-    <span class="mdl-textfield__error">Input is not a number!</span>
-  </div>
-    <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="number" min="0" step="any" max="59" pattern="-?[0-9]*(\.[0-9]+)?" id="secondInput">
-    <label class="mdl-textfield__label" id="secondLabel" for="secondInput">Seconds</label>
-    <span class="mdl-textfield__error">Input is not a number!</span>
-  </div>
+        .time {
+          width: 36.5%;
+          display: inline-block;
 
-</form>
-    <div>
-    <!-- Accent-colored raised button with ripple -->
-<button class="padding-element mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" id="submit-btn">
-  Submit
-</button>
-    <!-- Accent-colored raised button with ripple -->
-<button class="padding-element mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="clear-btn">
-  Clear
-</button>
+        }
+
+        #save {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+  <!-- Uses a header that scrolls with the text, rather than staying
+  locked at the top -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">PR Trackr</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation. We hide it in small screens. -->
+
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">PR Trackr</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="#storage">Saved PRs</a>
+          <a class="mdl-navigation__link" href="#paceCalculator">Pace Calculator</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="page-content"><!-- Your content goes here -->
+          <div class="container" id="main-container">
+
+
+
+              <div id="paceCalculator">
+                <label class="padding-element mdl-radio mdl-js-radio mdl-js-ripple-effect" for="miles">
+                    <input type="radio" id="miles" class="mdl-radio__button" name="options" value="Miles" checked>
+                    <span class="mdl-radio__label">Miles</span>
+                </label>
+                <label class="padding-element mdl-radio mdl-js-radio mdl-js-ripple-effect" for="km">
+                    <input type="radio" id="km" class="mdl-radio__button" required name="options" value="Km">
+                    <span class="mdl-radio__label">Kilometers</span>
+                </label>
+                <br />
+                <!--<label class="padding-element mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+          <input type="checkbox" class="mdl-checkbox__input" id="cfonvertMilePace">
+          <span class="mdl-checkbox__label">Convert to mile pace</span>
+        </label>-->
+                <label id="toggleLabelMileToKm" class="padding-element mdl-switch mdl-js-switch mdl-js-ripple-effect" for="convertMilePace">
+                    <input type="checkbox" id="convertMilePace" class="mdl-switch__input">
+                    <span class="mdl-switch__label">Convert to km pace</span>
+                </label>
+
+                <label id="toggleLabelKmToMile" class="padding-element mdl-switch mdl-js-switch mdl-js-ripple-effect" for="convertKmPace">
+                    <input type="checkbox" id="convertKmPace" class="mdl-switch__input textbox" >
+                    <span class="mdl-switch__label">Convert to mile pace</span>
+                </label>
+
+
+                <!-- Numeric Textfield with Floating Label -->
+                <form action="#">
+                    <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" min="0" step="any" pattern="-?[0-9]*(\.[0-9]+)?" id="distanceInput" class="required">
+                        <label class="mdl-textfield__label" id="distanceLabel" for="distanceInput">Miles</label>
+                        <span class="mdl-textfield__error">Input is not a number!</span>
+                    </div>
+                </form>
+
+                <!-- Numeric Textfield with Floating Label -->
+                <form action="#">
+                    <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label time">
+                        <input class="mdl-textfield__input" type="number" min="0" step="any" pattern="-?[0-9]*(\.[0-9]+)?" id="minuteInput">
+                        <label class="mdl-textfield__label" id="minuteLabel" for="minuteInput">Minutes</label>
+                        <span class="mdl-textfield__error">Input is not a number!</span>
+                    </div>
+                    <div class="padding-element mdl-textfield mdl-js-textfield mdl-textfield--floating-label time">
+                        <input class="mdl-textfield__input" type="number" min="0" step="any" max="59" pattern="-?[0-9]*(\.[0-9]+)?" id="secondInput">
+                        <label class="mdl-textfield__label" id="secondLabel" for="secondInput">Seconds</label>
+                        <span class="mdl-textfield__error">Input is not a number!</span>
+                    </div>
+
+                </form>
+                <div>
+                    <!-- Accent-colored raised button with ripple -->
+                    <button class="padding-element mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect button" id="submit-btn">
+                        Submit
+                    </button>
+                    <!-- Accent-colored raised button with ripple -->
+                    <button class="padding-element mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button" id="clear-btn">
+                        Clear
+                    </button>
+
+                    <button class="padding-element mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect button" id="save">Save</button>
+
+                    <!-- Icon button -->
+
+
+                </div>
+                <div id="answer">
+                    <h3 id="minute-mile"></h3>
+
+                </div>
+
+              </div>
+
+              <div id="storage">
+
+              </div>
+
+          </div>
+
+
+
+
+        </div>
+      </main>
     </div>
-        <div id="answer">
-        <h3 id="minute-mile"></h3>
+      </div>
 
-        </div>
 
-        </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
     <script>
-
-        
         var nullCheck = false;
         var submit = $("#submit-btn");
         var clear = $("#clear-btn");
@@ -124,147 +192,108 @@
 
         $(":radio[name=options]").change(function() {
             var unit = $(this).val();
-            if(unit === "Km") {
+            if (unit === "Km") {
                 globalUnit = "km";
                 $("#toggleLabelKmToMile").css("display", "block");
                 $("#toggleLabelMileToKm").css("display", "none");
-            } else if(unit === "Miles") {
-            	globalUnit = "mile";
-            	$("#toggleLabelKmToMile").css("display", "none");
-            	$("#toggleLabelMileToKm").css("display", "block");
+            } else if (unit === "Miles") {
+                globalUnit = "mile";
+                $("#toggleLabelKmToMile").css("display", "none");
+                $("#toggleLabelMileToKm").css("display", "block");
             }
 
             $("#distanceLabel").text(unit);
 
-
         });
-
 
         submit.on("click", function() {
 
             var distance = $("#distanceInput").val();
-            var minute = $("#minuteInput").val();
+            var minute = parseInt($("#minuteInput").val());
 
             var rawSecondTime = $("#secondInput");
-            if(rawSecondTime.val() == "") {
+            if (rawSecondTime.val() == "") {
                 rawSecondTime.val(0);
             }
-            var secondTime = rawSecondTime.val();
-            var second = secondTime/60;
-            var time = minute + second;
-
-
+            var secondTime = parseInt(rawSecondTime.val());
+            var seconds = 60*minute + secondTime;
+            console.log(seconds);
+            
             var localUnit = globalUnit;
             var toggle1 = $("#convertKmPace");
             var toggle2 = $("#convertMilePace");
-            if(distance == "" || time == "") {
+            if (distance == "" || seconds === 0) {
                 nullCheck = true;
 
             } else {
                 nullCheck = false;
             }
 
+            if (toggle1.is(":checked") && globalUnit == "km") {
 
+                localUnit = "mile";
+                distance = 0.621371 * distance;
 
+                calculatePace(distance);
+                console.log("Toggle 1 is checked, distance is " + distance);
 
-            if(toggle1.is(":checked") && globalUnit == "km") {
+            } else if (toggle2.is(":checked") && globalUnit == "mile") {
 
-            	localUnit = "mile";
-            	distance = 0.621371 * distance;
+                localUnit = "km";
+                distance = 1.60934 * distance;
+                console.log("Toggle 2 is checked, distance is " + distance);
+                calculatePace(distance);
 
-            	calculatePace(time, distance);
-              console.log("Toggle 1 is checked, distance is " + distance);
-
-
-            } else if (toggle2.is(":checked") && globalUnit == "mile"){
-
-            	localUnit = "km";
-            	distance = 1.60934 * distance;
-              console.log("Toggle 2 is checked, distance is " + distance);
-            	calculatePace(time, distance);
-
-
-
-
-            }
-
-            else {
-            	calculatePace(time, distance);
-              console.log("distance is " + distance);
+            } else {
+                calculatePace(distance);
+                console.log("distance is " + distance);
             }
 
             //console.log("unit is " + localUnit + " the distance is " + distance +" the minute mile is" + minuteTime);
             //calculatePace(time, distance);
 
-            function calculatePace(time, distance) {
-            minuteTime = time/distance;
+            function calculatePace(distance) {
+                var totalSecondPace = seconds / distance;
+                console.log("Total second pace: " + totalSecondPace);
+                var completeSecondPace = totalSecondPace % 60;
+                console.log("Complete second pace: " + completeSecondPace);
+                completeSecondPace = completeSecondPace.toFixed(1);
+                var completeMinPace = Math.floor(totalSecondPace / 60);
+                console.log("Complete minute pace: " + completeMinPace);
+                if (completeMinPace % 1 == 0 && secondTime == 0) {
 
-            completeMinTime =  minute/distance;
-            console.log("completeMinTime = " + completeMinTime);
-            completeSecTime = secondTime/distance;
-            console.log("completeSecTime = " + completeSecTime);
-            if(minuteTime % 1 == 0 && secondTime == 0) {
-
-                if(nullCheck == false) {
-                    $("#minute-mile").text("You accomplished " + minuteTime + " minute " + localUnit + " pace!");
+                    if (nullCheck == false) {
+                        $("#minute-mile").text("You accomplished " + completeMinPace + " minute " + localUnit + " pace!");
+                        $("#save").css("display", "inline-block");
+                    } else {
+                        $("#minute-mile").text("Invalid inputs!");
+                    }
                 } else {
-                    $("#minute-mile").text("Invalid inputs!");
-                }
-            } else {
-                if(nullCheck == false) {
-
-                    if(completeMinTime % 1 != 0) {
-                        var flooredMinuteTime = Math.floor(completeMinTime);
-                        var subtractedTime = completeMinTime - flooredMinuteTime;
-                        subtractedTime = subtractedTime*60;
-
-                        console.log("secondTime before = " + completeSecTime);
-
-                        completeSecTime = completeSecTime + subtractedTime;
-
-                        while(completeSecTime > 59) {
-
-                            completeSecTime = completeSecTime - 60;
-                            console.log("secondTime after = " + completeSecTime);
-                            flooredMinuteTime = flooredMinuteTime + 1;
-                            console.log("minuteTime after = " + flooredMinuteTime);
-                        }
-                        var roundedSecTime = completeSecTime.toFixed(1);
-                        var statement = "You accomplished " + flooredMinuteTime + " minute " + roundedSecTime + " second " + localUnit + " pace!";
-                        $("#minute-mile").text(statement);
-                        console.log(statement);
+                    if (nullCheck == false) {
+                            
+                            var statement = "You accomplished " + completeMinPace + " minute " + completeSecondPace + " second " + localUnit + " pace!";
+                            $("#minute-mile").text(statement);
+                            console.log(statement);
+                            $("#save").css("display", "inline-block");
 
                     } else {
-                         var statement = "You accomplished " + completeMinTime + " minute " + completeSecTime + " second " + localUnit + " pace!";secondTime
-                        $("#minute-mile").text(statement);
-                        console.log(statement);                    }
-                } else {
-                    $("#minute-mile").text("Invalid inputs!");
+                        $("#minute-mile").text("Invalid inputs!");
+                    }
                 }
-            }
 
-        }
+            }
 
         });
         clear.on("click", function() {
             $("#distanceInput").val("");
             $("#minuteInput").val("");
             $("#secondInput").val("")
-
+            $("#save").css("display", "none");
             $("#minute-mile").text("");
 
-
-
         });
-
-
-
-
-
     </script>
-    </body>
-
-
+</body>
 
 
 </html>
