@@ -1,20 +1,32 @@
+
 $(document).ready(function () {
+    
     "use strict";
     var storage = window.localStorage, 
         nullCheck = false, 
         submit = $("#submit-btn"), 
         clear = $("#clear-btn"), 
-        globalUnit = "mile", 
+        globalUnit = "mile",
+        i = -1,
+        idArray= [10000],
         save = $("#save");
+    if((storage.getItem("incrementID") == null) ||(typeof storage.getItem("incrementID") == "undefined")) {
+        storage.setItem("incrementID", JSON.stringify(-1));
+    } else {
+        i = JSON.parse(storage.getItem("incrementID"));
+        
+    }
+    
     var cardStorage = storage.getItem("trackedPRs");
     
     if(cardStorage != null) {
         cardStorage = JSON.parse(cardStorage);
-        console.log(cardStorage);
+        
         document.getElementById('storage').innerHTML += cardStorage;
     }
+    
     var card = function(distance, global, minTime, secTime, id) {
-            var cardHTML = '<div id="'+id+'"class="card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 contenteditable="true" class="md-card__title-text">PR</h2> <h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + '<br />' + minTime + ':' + secTime + '</h3> <h4 class="mdl-card__supporting-text"> </div></div>';
+            var cardHTML = '<div class="card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" id="'+id+'" class="card-title md-card__title-text"></h2> <br/><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + '<br />' + minTime + ':' + secTime + '</h3> <h4 class="mdl-card__supporting-text"> </div></div>';
         
             
             document.getElementById('storage').innerHTML += cardHTML;
@@ -27,6 +39,7 @@ $(document).ready(function () {
             storage.setItem("trackedPRs", JSON.stringify(trackedPRs));
         
     };
+    
     
     
 
@@ -47,7 +60,7 @@ $(document).ready(function () {
         $("#distanceLabel").text(unit);
 
     });
-    var trackedPR = $("#storage");
+    var trackedPR = $("#savedPace");
     $("#storageLink").on("click", function() {
         trackedPR.css("display", "block");
         $("#paceCalculator").css("display", "none");
@@ -147,15 +160,23 @@ $(document).ready(function () {
             storage.setItem("local", localUnit);
             storage.setItem("global", globalUnit);*/
             save.css("display", "none");
-            console.log("clicked");
-            var autoID = +new Date();
-            var jsonCard = JSON.stringify({ "distance": rawDistance, "global": globalUnit, "timeMinutes": minute, "timeSeconds": secondTime, "id": autoID});
+            i++;
+            if(i >= 0) {
+                idArray[i] = i;
+                
+            }
+            storage.setItem("incrementID", JSON.stringify(i));
+            
+            
+            var jsonCard = JSON.stringify({ "distance": rawDistance, "global": globalUnit, "timeMinutes": minute, "timeSeconds": secondTime, "id": i});
             
             
             
-            storage.setItem(('cardObject' + autoID), jsonCard);
             
-            var cardData = localStorage.getItem(('cardObject' + autoID));
+            
+            storage.setItem(('cardObject' + i), jsonCard);
+            
+            var cardData = localStorage.getItem(('cardObject' + i));
             
             
             card(JSON.parse(cardData).distance, JSON.parse(cardData).global, JSON.parse(cardData).timeMinutes, JSON.parse(cardData).timeSeconds, JSON.parse(cardData).id);
@@ -174,7 +195,30 @@ $(document).ready(function () {
         $("#minute-mile").text("");
 
     });
-
+    $("#clearAll").click(function() {
+        
+        
+        $.confirm({
+            title: 'Warning!',
+            content: 'Are you sure you want to delete all saved PRs?',
+            confirm: function() {
+                localStorage.clear();
+                $("#storage").html("");
+                i = -1;
+                storage.setItem("incrementID", JSON.stringify(i));
+            },
+            cancel: function() {
+                
+            }
+        });
+        
+    });
+    
+    $("#saveTitle").on('click', function(){
+        var storedPRs = $("#storage").html();
+        console.log(storedPRs);
+        storage.setItem("trackedPRs", JSON.stringify(storedPRs));
+    });
 
     
 
@@ -253,7 +297,7 @@ $(document).ready(function () {
             card(request.result.distanceGlobal, request.result.globalUnitStorage, request.result.timeMin, request.result.timeSec);
         }
     }*/
-
-
-
+    
+        
+    
 });
