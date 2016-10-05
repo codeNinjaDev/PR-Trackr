@@ -7,18 +7,18 @@
       <meta charset="utf-8">
 
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-      <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+      <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
       <!-- Latest compiled and minified CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
       <!-- Optional theme -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-      <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+      <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
       <link rel="stylesheet" href="jquery-confirm/css/jquery-confirm.css">
       <script src="jquery-confirm/js/jquery-confirm.js"></script>
-      
+      <script src="jgestures.js"></script>
 
       <style>
           /*#radio-buttons {
@@ -95,11 +95,19 @@
               text-align: center;
               
           }
+          .deleteCard {
+            background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+            outline:none;
+        }
       </style>
   </head>
 
-  <body>
-
+  <body onload="onDeviceReady()">
+      
     <!-- Uses a header that scrolls with the text, rather than staying
     locked at the top -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -116,8 +124,9 @@
         <div class="mdl-layout__drawer">
           <span class="mdl-layout-title">PR Trackr</span>
           <nav class="mdl-navigation">
-            <a id="storageLink" class="mdl-navigation__link" href="#storage">Saved PRs</a>
+            
             <a id="calculatorLink"class="mdl-navigation__link" href="#paceCalculator">Pace Calculator</a>
+            <a id="storageLink" class="mdl-navigation__link" href="#storage">Saved PRs</a>
           </nav>
         </div>
         <main class="mdl-layout__content">
@@ -201,9 +210,9 @@
                     <button id="clearAll" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                         <i class="material-icons">delete_forever</i>
                     </button>
-                    <button id="saveTitle" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                    <!--<button id="saveTitle" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                         <i class="material-icons">save</i>
-                    </button>
+                    </button>-->
                     <div id="storage"></div>
                 </div>
 
