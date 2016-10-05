@@ -24,10 +24,10 @@ function onDeviceReady() {
         document.getElementById('storage').innerHTML += cardStorage;
     }
     
-    var card = function(distance, global, minTime, secTime, id) {
+    var card = function(distance, global, minTime, secTime, id, date) {
             
             
-            var cardHTML = '<div style="width: 70vw; display:table;  text-align: center; position: relative;" class="'+id+' card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" class="card-title md-card__title-text" style="vertical-align: middle; text-align: center; display: table-cell; width: 70vw;"></h2> </div><div><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + ' ' + minTime + ':' + secTime + '</h3> </div><div class="mdl-card__actions"><button  id="'+id+'" style="position: absolute; bottom: 0; right: 0;" class="deleteCard mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">delete</i></button></div></div>';
+            var cardHTML = '<div style="width: 70vw; display:table;  text-align: center; position: relative;" class="'+id+' card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" class="card-title md-card__title-text" style="vertical-align: middle; text-align: center; display: table-cell; width: 70vw;"></h2> </div><div><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + ' ' + minTime + ':' + secTime + ' </br> ' + date + '</h3> </div><div class="mdl-card__actions"><button  id="'+id+'" style="position: absolute; bottom: 0; right: 0;" class="deleteCard mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">delete</i></button></div></div>';
         
             
             document.getElementById('storage').innerHTML += cardHTML;
@@ -42,13 +42,20 @@ function onDeviceReady() {
     };
     
     
-    
-    $(document).on("swiperight", "mdl-layout__drawer-button", function() {
-        $(".mdl-layout__drawer-button").click();   
-    });    
-    $(document).on("swipeleft", "mdl-layout__drawer-button", function() {
-        $(".mdl-layout__drawer-button").click();   
+    $(function() {
+        $(document).swipe( {
+        //Generic swipe handler for all directions
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+            if(direction === "left" || direction === "right") {
+                $(".mdl-layout__drawer-button").click();
+            }
+        }
     });
+
+  //Set some options later
+  
+});
+    
     $( document ).on( 'click', '.deleteCard', function() {
         
         
@@ -187,6 +194,15 @@ function onDeviceReady() {
 
         
         save.unbind().click(function() {
+            var fullDate = new Date()
+            console.log(fullDate);
+            //Thu May 19 2011 17:25:38 GMT+1000 {}
+
+            //convert month to 2 digits
+            var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : (fullDate.getMonth()+1);
+
+            var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+            console.log(currentDate);
             /*storage.setItem("distance", distance);
             storage.setItem("timeSeconds", secondTime);
             storage.setItem("timeMinutes", minute);
@@ -203,7 +219,7 @@ function onDeviceReady() {
             storage.setItem("incrementID", JSON.stringify(i));
             
             
-            var jsonCard = JSON.stringify({ "distance": rawDistance, "global": globalUnit, "timeMinutes": minute, "timeSeconds": secondTime, "id": i});
+            var jsonCard = JSON.stringify({ "distance": rawDistance, "global": globalUnit, "timeMinutes": minute, "timeSeconds": secondTime, "id": i, "date": currentDate});
             
             
             
@@ -214,7 +230,8 @@ function onDeviceReady() {
             var cardData = localStorage.getItem(('cardObject' + i));
             
             
-            card(JSON.parse(cardData).distance, JSON.parse(cardData).global, JSON.parse(cardData).timeMinutes, JSON.parse(cardData).timeSeconds, JSON.parse(cardData).id);
+            card(JSON.parse(cardData).distance, JSON.parse(cardData).global, JSON.parse(cardData).timeMinutes, JSON.parse(cardData).timeSeconds, JSON.parse(cardData).id, 
+            JSON.parse(cardData).date);
             
             
             
