@@ -1,6 +1,5 @@
-
-$(document).ready(function () {
-    
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
     "use strict";
     var storage = window.localStorage, 
         nullCheck = false, 
@@ -26,7 +25,9 @@ $(document).ready(function () {
     }
     
     var card = function(distance, global, minTime, secTime, id) {
-            var cardHTML = '<div class="card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" id="'+id+'" class="card-title md-card__title-text"></h2> <br/><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + '<br />' + minTime + ':' + secTime + '</h3> <h4 class="mdl-card__supporting-text"> </div></div>';
+            
+            
+            var cardHTML = '<div style="width: 70vw; display:table;  text-align: center; position: relative;" class="'+id+' card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" class="card-title md-card__title-text" style="vertical-align: middle; text-align: center; display: table-cell; width: 70vw;"></h2> </div><div><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + ' ' + minTime + ':' + secTime + '</h3> </div><div class="mdl-card__actions"><button  id="'+id+'" style="position: absolute; bottom: 0; right: 0;" class="deleteCard mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">delete</i></button></div></div>';
         
             
             document.getElementById('storage').innerHTML += cardHTML;
@@ -42,9 +43,43 @@ $(document).ready(function () {
     
     
     
-
+    $(document).on("swiperight", "mdl-layout__drawer-button", function() {
+        $(".mdl-layout__drawer-button").click();   
+    });    
+    $(document).on("swipeleft", "mdl-layout__drawer-button", function() {
+        $(".mdl-layout__drawer-button").click();   
+    });
+    $( document ).on( 'click', '.deleteCard', function() {
         
-    
+        
+        var id =this.id;
+        
+        id = JSON.stringify(id);
+        var deleteCard = document.getElementById(id);
+        
+        var parent = $(this).closest('div.' + JSON.parse(id));
+        
+        console.log(parent.width());
+        parent.css("display", "none");
+        parent.remove();
+        //parentDiv.parentNode.removeChild(parentDiv);
+        
+        
+        
+        
+
+        //parentCard.remove();
+        storage.removeItem("cardObject" + JSON.parse(id));
+        
+        var trackedPRs = $("#storage").html();
+            
+            
+            
+        /*trackedPR.append(cardAppend);*/
+        storage.setItem("trackedPRs", JSON.stringify(trackedPRs));
+        
+        
+    });
     $(":radio[name=options]").change(function() {
         var unit = $(this).val();
         if (unit === "Km") {
@@ -87,7 +122,7 @@ $(document).ready(function () {
         var localUnit = globalUnit;
         var toggle1 = $("#convertKmPace");
         var toggle2 = $("#convertMilePace");
-        if (distance === "" || seconds === 0) {
+        if (distance === "" || seconds === 0 || rawSecondTime.val() > 60) {
             nullCheck = true;
 
         } else {
@@ -214,9 +249,10 @@ $(document).ready(function () {
         
     });
     
-    $("#saveTitle").on('click', function(){
+    $( document ).on( 'keyup', '.card-title', function() {
         var storedPRs = $("#storage").html();
-        console.log(storedPRs);
+        
+
         storage.setItem("trackedPRs", JSON.stringify(storedPRs));
     });
 
@@ -296,8 +332,10 @@ $(document).ready(function () {
             console.log("Woot! Did it");
             card(request.result.distanceGlobal, request.result.globalUnitStorage, request.result.timeMin, request.result.timeSec);
         }
-    }*/
+    }*/    
+}
+    
+    
     
         
     
-});
