@@ -45,16 +45,16 @@ function onDeviceReady() {
     $(function() {
         $(document).swipe( {
         //Generic swipe handler for all directions
-        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-            if(direction === "left" || direction === "right") {
-                $(".mdl-layout__drawer-button").click();
+            swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+                if(direction === "left" || direction === "right") {
+                    $(".mdl-layout__drawer-button").click();
+                }
             }
-        }
-    });
+        }, allowPageScroll:"auto");
 
   //Set some options later
   
-});
+    });
     
     $( document ).on( 'click', '.deleteCard', function() {
         
