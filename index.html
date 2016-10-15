@@ -3,8 +3,11 @@
 
   <head>
       <title>PR Tracker</title>
+      <meta charset="utf-8" />
+	    <meta name="format-detection" content="telephone=no" />
+	    <meta name="msapplication-tap-highlight" content="no" />
       <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-      <meta charset="utf-8">
+
 
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
@@ -17,11 +20,13 @@
       <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
       <link rel="stylesheet" href="jquery-confirm/css/jquery-confirm.css">
+      <!--<script type="text/javascript" src="cordova.js"></script>-->
+
       <script src="jquery-confirm/js/jquery-confirm.js"></script>
       <script type="text/javascript" src="jgestures.js"></script>
 
       <style>
-          
+
           .mdl-layout__drawer {
               background-color: aliceblue;
           }
@@ -57,8 +62,11 @@
           }
 
           #savedPace {
-            
+
             display: none;
+          }
+          #storage {
+            overflow: auto;
           }
 
           #submit-btn {
@@ -76,28 +84,20 @@
           #save {
               display: none;
           }
-          
+
           #clearAll {
               position: fixed;
               bottom: 0;
-              right: 0; 
-              margin: 8px; 
+              right: 0;
+              margin: 8px;
               z-index: 2;
               background-color: black;
           }
-          
-          #saveTitle {
-              position: fixed;
-              bottom: 0;
-              right: 64px; 
-              margin: 8px; 
-              z-index: 2;
-              background-color: blue;
-          }
-           
+
+
           .card-title {
               text-align: center;
-              
+
           }
           .deleteCard {
             background-color: Transparent;
@@ -107,14 +107,11 @@
             overflow: hidden;
             outline:none;
         }
-        #storage {
-          overflow: auto;
-        }
       </style>
   </head>
 
   <body onload="onDeviceReady()">
-      
+
     <!-- Uses a header that scrolls with the text, rather than staying
     locked at the top -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -131,7 +128,7 @@
         <div class="mdl-layout__drawer">
           <span class="mdl-layout-title">PR Trackr</span>
           <nav class="mdl-navigation">
-            
+
             <a id="calculatorLink"class="mdl-navigation__link" href="#paceCalculator">Pace Calculator</a>
             <a id="storageLink" class="mdl-navigation__link" href="#storage">Saved PRs</a>
           </nav>
@@ -231,7 +228,7 @@
           </div>
         </main>
       </div>
-        
+
     <script src="myscript.js"></script>
   </body>
 
