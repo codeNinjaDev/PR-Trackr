@@ -1,10 +1,13 @@
+//Thanks David, my loving brother who helped me on this project
 document.addEventListener("deviceready", onDeviceReady, false);
+
+
 function onDeviceReady() {
     "use strict";
-    var storage = window.localStorage, 
-        nullCheck = false, 
-        submit = $("#submit-btn"), 
-        clear = $("#clear-btn"), 
+    var storage = window.localStorage,
+        nullCheck = false,
+        submit = $("#submit-btn"),
+        clear = $("#clear-btn"),
         globalUnit = "mile",
         i = -1,
         idArray= [10000],
@@ -13,79 +16,79 @@ function onDeviceReady() {
         storage.setItem("incrementID", JSON.stringify(-1));
     } else {
         i = JSON.parse(storage.getItem("incrementID"));
-        
+
     }
-    
+
     var cardStorage = storage.getItem("trackedPRs");
-    
+
     if(cardStorage != null) {
         cardStorage = JSON.parse(cardStorage);
-        
+
         document.getElementById('storage').innerHTML += cardStorage;
     }
-    
+
     var card = function(distance, global, minTime, secTime, id, date) {
-            
-            
+
+
             var cardHTML = '<div style="width: 70vw; display:table;  text-align: center; position: relative;" class="'+id+' card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" class="card-title md-card__title-text" style="vertical-align: middle; text-align: center; display: table-cell; width: 70vw;"></h2> </div><div><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + ' ' + minTime + ':' + secTime + ' </br> ' + date + '</h3> </div><div class="mdl-card__actions"><button  id="'+id+'" style="position: absolute; bottom: 0; right: 0;" class="deleteCard mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">delete</i></button></div></div>';
-        
-            
+
+
             document.getElementById('storage').innerHTML += cardHTML;
-            
+
             var trackedPRs = $("#storage").html();
-            
-            
-            
+
+
+
             /*trackedPR.append(cardAppend);*/
             storage.setItem("trackedPRs", JSON.stringify(trackedPRs));
-        
+
     };
-    
-    
+
+
     $(function() {
         $(document).swipe( {
         //Generic swipe handler for all directions
-            swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-                if(direction === "left" || direction === "right") {
-                    $(".mdl-layout__drawer-button").click();
-                }
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+            if(direction === "left" || direction === "right") {
+                $(".mdl-layout__drawer-button").click();
             }
-        }, allowPageScroll:"auto");
+        }
+    });
 
   //Set some options later
-  
-    });
-    
+
+});
+
     $( document ).on( 'click', '.deleteCard', function() {
-        
-        
+
+
         var id =this.id;
-        
+
         id = JSON.stringify(id);
         var deleteCard = document.getElementById(id);
-        
+
         var parent = $(this).closest('div.' + JSON.parse(id));
-        
-        console.log(parent.width());
+
+
         parent.css("display", "none");
         parent.remove();
         //parentDiv.parentNode.removeChild(parentDiv);
-        
-        
-        
-        
+
+
+
+
 
         //parentCard.remove();
         storage.removeItem("cardObject" + JSON.parse(id));
-        
+
         var trackedPRs = $("#storage").html();
-            
-            
-            
+
+
+
         /*trackedPR.append(cardAppend);*/
         storage.setItem("trackedPRs", JSON.stringify(trackedPRs));
-        
-        
+
+
     });
     $(":radio[name=options]").change(function() {
         var unit = $(this).val();
@@ -125,7 +128,7 @@ function onDeviceReady() {
         }
         var secondTime = parseInt(rawSecondTime.val());
         var seconds = 60 * minute + secondTime;
-        
+
         var localUnit = globalUnit;
         var toggle1 = $("#convertKmPace");
         var toggle2 = $("#convertMilePace");
@@ -141,19 +144,20 @@ function onDeviceReady() {
             localUnit = "mile";
             distance = 0.621371 * distance;
 
+
             calculatePace(distance);
-            
+
 
         } else if (toggle2.is(":checked") && globalUnit === "mile") {
 
             localUnit = "km";
             distance = 1.60934 * distance;
-            
+
             calculatePace(distance);
 
         } else {
             calculatePace(distance);
-            
+
         }
 
         //console.log("unit is " + localUnit + " the distance is " + distance +" the minute mile is" + minuteTime);
@@ -161,13 +165,15 @@ function onDeviceReady() {
 
         function calculatePace(distance) {
             var totalSecondPace = seconds / distance;
-            
-            completeSecondPace = totalSecondPace % 60;
-            
-            completeSecondPace = completeSecondPace.toFixed(1);
+            console.log(distance);
+            /*HypothesiscompleteSecondPace = totalSecondPace % 60;
+
+            */
             completeMinPace = Math.floor(totalSecondPace / 60);
-            
-            if (completeMinPace % 1 === 0 && secondTime === 0) {
+
+            completeSecondPace = ((totalSecondPace/60) - completeMinPace) * 60;
+            completeSecondPace = completeSecondPace.toFixed(2);
+            if (completeMinPace >= 1 && (totalSecondPace % 60) === 0) {
 
                 if (nullCheck === false) {
                     $("#minute-mile").text("You accomplished " + completeMinPace + " minute " + localUnit + " pace!");
@@ -180,7 +186,7 @@ function onDeviceReady() {
 
                     var statement = "You accomplished " + completeMinPace + " minute " + completeSecondPace + " second " + localUnit + " pace!";
                     $("#minute-mile").text(statement);
-                    
+
                     $("#save").css("display", "inline-block");
 
                 } else {
@@ -192,7 +198,7 @@ function onDeviceReady() {
 
 
 
-        
+
         save.unbind().click(function() {
             var fullDate = new Date()
             console.log(fullDate);
@@ -214,28 +220,28 @@ function onDeviceReady() {
             i++;
             if(i >= 0) {
                 idArray[i] = i;
-                
+
             }
             storage.setItem("incrementID", JSON.stringify(i));
-            
-            
+
+
             var jsonCard = JSON.stringify({ "distance": rawDistance, "global": globalUnit, "timeMinutes": minute, "timeSeconds": secondTime, "id": i, "date": currentDate});
-            
-            
-            
-            
-            
+
+
+
+
+
             storage.setItem(('cardObject' + i), jsonCard);
-            
+
             var cardData = localStorage.getItem(('cardObject' + i));
-            
-            
-            card(JSON.parse(cardData).distance, JSON.parse(cardData).global, JSON.parse(cardData).timeMinutes, JSON.parse(cardData).timeSeconds, JSON.parse(cardData).id, 
+
+
+            card(JSON.parse(cardData).distance, JSON.parse(cardData).global, JSON.parse(cardData).timeMinutes, JSON.parse(cardData).timeSeconds, JSON.parse(cardData).id,
             JSON.parse(cardData).date);
-            
-            
-            
-            
+
+
+
+
         });
 
     });
@@ -248,8 +254,8 @@ function onDeviceReady() {
 
     });
     $("#clearAll").click(function() {
-        
-        
+
+
         $.confirm({
             title: 'Warning!',
             content: 'Are you sure you want to delete all saved PRs?',
@@ -260,99 +266,17 @@ function onDeviceReady() {
                 storage.setItem("incrementID", JSON.stringify(i));
             },
             cancel: function() {
-                
+
             }
         });
-        
+
     });
-    
+
     $( document ).on( 'keyup', '.card-title', function() {
         var storedPRs = $("#storage").html();
-        
+
 
         storage.setItem("trackedPRs", JSON.stringify(storedPRs));
     });
 
-    
-
-    /*//Database
-    //prefixes of implementation that we want to test
-    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-
-    //prefixes of window.IDB objects
-    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange
-
-    var db;
-
-    function indexedDBOk() {
-        return "indexedDB" in window;
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-
-        //No support? Go in the corner and pout.
-        if (!indexedDBOk) return;
-
-        var openRequest = indexedDB.open("prTrackrStorage", 1);
-
-        openRequest.onupgradeneeded = function(e) {
-            var thisDB = e.target.result;
-
-            if (!thisDB.objectStoreNames.contains("pr")) {
-                thisDB.createObjectStore("pr", {keyPath: "id", autoincrement: true});
-            }
-        }
-
-        openRequest.onsuccess = function(e) {
-            console.log("running onsuccess");
-
-            db = e.target.result;
-
-            //Listen for add clicks
-            document.querySelector("#save").addEventListener("click", addPR, false);
-        }
-
-        openRequest.onerror = function(e) {
-            //Do something for the error
-        }
-
-    }, false);
-
-    function addPR(e) {
-        var distanceGlobal= document.querySelector("#distanceInput").value;
-        var timeMin = document.querySelector("#minuteInput").value;
-        var timeSec = document.querySelector("#secondInput").value;
-        var globalUnitStorage = globalUnit;
-
-        var transaction = db.transaction(["pr"], "readwrite");
-        var store = transaction.objectStore("pr");
-
-        //Define a person
-        var pr = {
-            distanceGlobal: distanceGlobal,
-            timeMin: timeMin,
-            timeSec: timeSec,
-            globalUnitStorage: globalUnitStorage,
-            created: new Date()
-        }
-
-        //Perform the add
-        var request = store.add(pr, 1);
-        
-        request.onerror = function(e) {
-            console.log("Error", e.target.error.name);
-            //some type of error handler
-        }
-
-        request.onsuccess = function(e) {
-            console.log("Woot! Did it");
-            card(request.result.distanceGlobal, request.result.globalUnitStorage, request.result.timeMin, request.result.timeSec);
-        }
-    }*/    
 }
-    
-    
-    
-        
-    
