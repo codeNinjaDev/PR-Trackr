@@ -31,7 +31,7 @@ function onDeviceReady() {
     var card = function(distance, global, minTime, secTime, id, date) {
 
 
-            var cardHTML = '<div style="width: 90vw; display:table;  text-align: center; position: relative;" class="'+id+' card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" class="card-title md-card__title-text" style="vertical-align: middle; text-align: center; display: table-cell; width: 70vw;"></h2> </div><div><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + ' ' + minTime + ':' + secTime + ' </br> ' + date + '</h3> </div><div class="mdl-card__actions"><button  id="'+id+'" style="position: absolute; bottom: 0; right: 0;" class="deleteCard mdl-button mdl-js-button mdl-button--icon"><img id="delete" class="material-icons" src="icons/delete.svg"  width="24px"/></button></div></div>';
+             var cardHTML = '<div style="width: 100%; display:table;  text-align: center; position: relative;" class="'+id+' card mdl-card mdl-shadow--2dp through mdl-shadow--16dp"> <div class="mdl-card__title"> <h2 placeholder="PR" contenteditable="true" class="card-title md-card__title-text" style="vertical-align: middle; text-align: center; display: table-cell; width: 100%;"></h2> </div><div><h3 class="mdl-card__subtitle-text">' + distance + ' ' + global + ' ' + minTime + ':' + secTime + ' </br> ' + date + '</h3> </div><div class="mdl-card__actions"><button  id="'+id+'" style="position: absolute; bottom: 0; right: 0;" class="deleteCard mdl-button mdl-js-button mdl-button--icon"><img id="delete" class="material-icons" src="icons/delete.svg"  width="24px"/></button></div></div>';
 
 
             document.getElementById('storage').innerHTML += cardHTML;
@@ -178,7 +178,7 @@ function onDeviceReady() {
 
                 if (nullCheck === false) {
                     $("#minute-mile").text("You accomplished " + completeMinPace + " minute " + localUnit + " pace!");
-                    $("#save").css("display", "inline-block");
+                    $("#save").css("display", "inline");
                 } else {
                     $("#minute-mile").text("Invalid inputs!");
                 }
@@ -188,7 +188,7 @@ function onDeviceReady() {
                     var statement = "You accomplished " + completeMinPace + " minute " + completeSecondPace + " second " + localUnit + " pace!";
                     $("#minute-mile").text(statement);
 
-                    $("#save").css("display", "inline-block");
+                    $("#save").css("display", "inline");
 
                 } else {
                     $("#minute-mile").text("Invalid inputs!");
