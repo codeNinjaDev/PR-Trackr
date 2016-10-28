@@ -1218,7 +1218,9 @@ ul, ol {
   -moz-font-feature-settings: 'liga';
        font-feature-settings: 'liga';
   -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased; }
+  -webkit-font-smoothing: antialiased; 
+  text-rendering: optimizeLegibility;
+}
 
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
