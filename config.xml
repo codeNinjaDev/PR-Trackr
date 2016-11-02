@@ -1,0 +1,23 @@
+<?xml version=“1.0” encoding=“UTF-8” ?>
+
+<widget xmlns = “http://www.w3.org/ns/widgets”
+	   xmlns:gap = “http://phonegap.com/ns/1.0”
+	   id = “com.appbeasts.prtracker”
+	   
+              version = “1.1.6” >
+
+	<name>PR Trackr</name>
+
+	<description>An essential tool for a runner. It calculates your pace and saves your distance and time on your device. Best running log on the market. Icon from flaticon.com</description>
+
+	<author href= “pichacko.wordpress.com”>
+
+	Peter Chacko
+
+	</author>
+  
+  <feature>
+    <preference name="permissions" value="none"/>
+  </feature>
+
+</widget>
