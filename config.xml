@@ -21,8 +21,6 @@
 	<platform name="ios">
 		<icon src="icon.jpg" />
 	</platform>
-  <feature>
-    <preference name="permissions" value="none"/>
-  </feature>
+
 
 </widget>
