@@ -15,7 +15,12 @@
 	Peter Chacko
 
 	</author>
-  
+	<platform name="android">
+		<icon src="icon.png" />
+	</platform>
+	<platform name="ios">
+		<icon src="icon.jpg" />
+	</platform>
   <feature>
     <preference name="permissions" value="none"/>
   </feature>
