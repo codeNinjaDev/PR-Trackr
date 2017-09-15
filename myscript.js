@@ -1,6 +1,193 @@
 //Thanks David, my loving brother who helped me on this project
 document.addEventListener("deviceready", onDeviceReady, false);
 
+var map;
+        var mylat;
+        var mylong;
+        var startDate = new Date();
+        var startTime;
+        var intervalCounter = 0;
+        var stopped = false;
+        var runnning_distance = 0;
+        var totalSeconds = 0;
+        var totalMinutes = 0;
+        $('#stop').prop('disabled', true);
+        var x = navigator.geolocation;
+       
+       
+        $("#start").on("click", function() {
+            stopped = false;
+            startTime = startDate.getTime();
+            $("#start").prop('disabled', true);
+            $('#stop').prop('disabled', false);
+            $("#map").css("display", "block");
+            var marker = null;
+            var startMarker = null;
+            var startlat;
+            var startlong;
+            var newPoint;
+            var startPoint;
+                        //alert("start");
+
+    x.getCurrentPosition(function(position) {
+                                //alert("getpos");
+
+            mylat, startlat = position.coords.latitude;
+            mylong, startlong = position.coords.longitude;
+             startPoint = new google.maps.LatLng(position.coords.latitude,
+                 position.coords.longitude); 
+    });
+            // Initialize the Google Maps API v3
+         map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 20,
+         center: startPoint,
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+     });
+        startMarker = new google.maps.Marker({
+                     position: startPoint,
+                     map: map
+        });
+       
+    
+         x.watchPosition(success, failure, {
+             maximumAge: 100,
+             timeout: 300000,
+             enableHighAccuracy: true
+             
+         });
+         
+         function success(position) {
+             //alert("success");
+              
+             newPoint = new google.maps.LatLng(position.coords.latitude,
+                 position.coords.longitude);
+
+             if (marker) {
+                 // Marker already created - Move it
+                 marker.setPosition(newPoint);
+             } else {
+                 // Marker does not exist - Create it
+                 marker = new google.maps.Marker({
+                     position: newPoint,
+                     map: map
+                 });
+             }
+             mylat = position.coords.latitude;
+            mylong = position.coords.longitude;
+             $("#lat").text(mylat);
+             $("#long").text(mylong);
+             // Center the map on the new position
+             map.setCenter(newPoint);
+             timeInterval = setInterval(function() {
+                intervalCounter = intervalCounter + 1;
+                var currentTime = new Date();
+                var elapsedTime = currentTime.getTime() - startTime;
+                var minutes = millisToMinutes(elapsedTime);
+                var seconds = millisToSec(elapsedTime);
+               
+                $("#stopwatch").text('Time: ' + minutes + ':' + seconds);
+                 
+                 /*var elapsedTime = new Date();
+                 totalSeconds = elapsedTime.getTime() - startTime;
+                 totalSeconds  = totalSeconds/1000;*/
+                if((intervalCounter % 10) == 0) {
+                    if(stopped == false) {runnning_distance = calculateDistance(startlat, startlong, mylat, mylong)/1000 + runnning_distance; 
+            startlat = mylat; 
+             startlong = mylong;
+                            }
+                var miles = runnning_distance * 1.60934;
+                livePace(miles, minutes, seconds, "miles")
+                
+                }
+                 
+             }, 500);
+            
+
+             $("#distancekm").text(runnning_distance + " km ");
+                          $("#distancem").text(runnning_distance*1000 + " m ");
+                          $("#distanceFeet").text(runnning_distance *  3280.84 + " feet ");
+            
+             
+             
+         }
+          function failure(position) {
+             
+              alert("fail!");
+          }   
+          $("#stop").click(function() {
+            var distanceRan = $("#distancem").text();
+            stopped = true;
+            $('#start').prop('disabled', false);
+            $("#stop").prop('disabled', true);
+            var endMarker = null;
+            runnning_distance = 0;
+            var endPoint;
+            clearInterval(timeInterval);
+            x.getCurrentPosition(function(position) {
+                
+                endPoint = new google.maps.LatLng(position.coords.latitude,
+                 position.coords.longitude); 
+               
+
+               
+                
+                
+            });
+            endMarker = new google.maps.Marker({
+                     position: endPoint,
+                     map: map
+            });
+            $("#distancem").text(distanceRan);
+             
+        });        
+            
+            function calculateDistance(lat1, lon1, lat2, lon2) {
+              var R = 6371000; // meters
+              var dLat = (lat2 - lat1).toRad();
+              var dLon = (lon2 - lon1).toRad(); 
+              var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+              var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+              var d = R * c;
+              return d;
+}
+            
+Number.prototype.toRad = function() {
+  return this * Math.PI / 180;
+}
+            
+        function failure() {
+            $("lat").text("W3C Geolocation API not supported!");
+        }
+         
+         
+
+        });
+        function livePace(distance, minutes, seconds, unit) {
+            var totalSecondPace = (minutes*60) + seconds;
+            totalSecondPace = totalSecondPace/distance;
+            completeMinPace = Math.floor(totalSecondPace / 60);
+
+            completeSecondPace = ((totalSecondPace/60) - completeMinPace) * 60;
+            completeSecondPace = completeSecondPace.toFixed(2);       
+            
+            if (completeMinPace >= 1 && (totalSecondPace % 60) === 0) {
+                $("#livePace").text("Pace: " + completeMinPace + " minute " + unit  + " pace!");
+            } else {
+                $("#livePace").text("Pace: " + completeMinPace + " minute " + completeSecondPace + " second " + unit + " pace! ");
+            }
+        }
+       
+        function millisToMinutes(millis) {
+  var minutes = Math.floor(millis / 60000);
+  
+  return minutes;
+}
+        function millisToSec(millis) {
+            var seconds = ((millis % 60000) / 1000).toFixed(0);
+            return ((seconds < 10 ? '0' : '') + seconds) ;
+        }
 
 function onDeviceReady() {
     $(".mdl-layout__drawer-button").html('<img src="icons/menu.svg" width="24px" class="material-icons" id="menu"/>');
@@ -110,10 +297,29 @@ function onDeviceReady() {
     $("#storageLink").on("click", function() {
         trackedPR.css("display", "block");
         $("#paceCalculator").css("display", "none");
+        $("#geolocation").css("display", "none");
     });
     $("#calculatorLink").on("click", function() {
         trackedPR.css("display", "none");
+        $("#geolocation").css("display", "none");
         $("#paceCalculator").css("display", "block");
+    });
+    $("#mapLink").on("click", function() {
+        $.confirm({
+            title: 'Warning!',
+            content: 'This uses internet! If you have data this will use some!',
+            confirm: function() {
+                
+            },
+            cancel: function() {
+                trackedPR.css("display", "none");
+        $("#geolocation").css("display", "none");
+        $("#paceCalculator").css("display", "block");
+            }
+        });
+        trackedPR.css("display", "none");
+        $("#geolocation").css("display", "block");
+        $("#paceCalculator").css("display", "none");
     });
     submit.on("click", function() {
 
