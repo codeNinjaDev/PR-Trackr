@@ -2,6 +2,8 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 
 var map;
+        var globalLiveMinutes;
+        var globalLiveSeconds;
         var mylat;
         var mylong;
         var startDate = new Date();
@@ -58,7 +60,10 @@ var map;
          
          function success(position) {
              //alert("success");
-              
+             $("#finishedDistance").text('');
+             $("#finishedTime").text('');
+             $("#finishedPace").text('');
+
              newPoint = new google.maps.LatLng(position.coords.latitude,
                  position.coords.longitude);
 
@@ -84,6 +89,8 @@ var map;
                 var elapsedTime = currentTime.getTime() - startTime;
                 var minutes = millisToMinutes(elapsedTime);
                 var seconds = millisToSec(elapsedTime);
+                globalLiveMinutes = minutes;
+                globalLiveSeconds = seconds;
                
                 $("#stopwatch").text('Time: ' + minutes + ':' + seconds);
                  
@@ -96,7 +103,7 @@ var map;
              startlong = mylong;
                             }
                 var miles = runnning_distance * 1.60934;
-                livePace(miles, minutes, seconds, "miles")
+                livePace(runnning_distance * 1.60934, minutes, seconds, "miles", "livePace")
                 
                 }
                  
@@ -115,14 +122,29 @@ var map;
               alert("fail!");
           }   
           $("#stop").click(function() {
-            var distanceRan = $("#distancem").text();
+            var finishedDistance = $("#distancekm").text();
+            var finishedTime = $("#stopwatch").text();
+            var finishedPace = $("#livePace").text();
+            console.log(finishedDistance);
+            console.log(finishedTime);
+            console.log(finishedPace);
+            clearInterval(timeInterval);
+            $("#finishedDistance").text(finishedDistance);
+            $("#finishedTime").text(finishedTime);
+            livePace(finishedDistance* 1.60934, globalLiveMinutes, globalLiveSeconds, "miles", "finishedPace");
             stopped = true;
+            
+            $("#distanceFeet").text('');
+            $("#distancem").text('');
+            $("#distancekm").text('');
+            $("#stopwatch").text('');
+            $("#livePace").text('');
+            
             $('#start').prop('disabled', false);
             $("#stop").prop('disabled', true);
             var endMarker = null;
             runnning_distance = 0;
             var endPoint;
-            clearInterval(timeInterval);
             x.getCurrentPosition(function(position) {
                 
                 endPoint = new google.maps.LatLng(position.coords.latitude,
@@ -137,7 +159,6 @@ var map;
                      position: endPoint,
                      map: map
             });
-            $("#distancem").text(distanceRan);
              
         });        
             
@@ -164,7 +185,7 @@ Number.prototype.toRad = function() {
          
 
         });
-        function livePace(distance, minutes, seconds, unit) {
+        function livePace(distance, minutes, seconds, unit, id) {
             var totalSecondPace = (minutes*60) + seconds;
             totalSecondPace = totalSecondPace/distance;
             completeMinPace = Math.floor(totalSecondPace / 60);
@@ -173,9 +194,9 @@ Number.prototype.toRad = function() {
             completeSecondPace = completeSecondPace.toFixed(2);       
             
             if (completeMinPace >= 1 && (totalSecondPace % 60) === 0) {
-                $("#livePace").text("Pace: " + completeMinPace + " minute " + unit  + " pace!");
+                $("#" + id).text("Pace: " + completeMinPace + " minute " + unit  + " pace!");
             } else {
-                $("#livePace").text("Pace: " + completeMinPace + " minute " + completeSecondPace + " second " + unit + " pace! ");
+                $("#" + id).text("Pace: " + completeMinPace + " minute " + completeSecondPace + " second " + unit + " pace! ");
             }
         }
        
